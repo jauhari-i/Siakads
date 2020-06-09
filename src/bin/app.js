@@ -32,8 +32,9 @@ mongoose.connect(
 app.use('/api', require('../apis/index'));
 
 app.get('*', (req, res) => {
+  console.log(req.headers);
   res.json({
-    message: ':8080' + req.url + ' not fond',
+    message: 'url: ' + req.url + ' not found',
     error: 'NoPathExist',
     code: 404,
   });

@@ -19,9 +19,9 @@ module.exports = sendVerificationEmail = async (email, nama, password, cb) => {
     };
     const htmlToSend = template(data);
     const mailOptions = {
-      from: `"Admin SMK Telkom Malang #fufu" <no-reply@adminmoklet.com>`,
+      from: `"Admin SMK Telkom Malang" <no-reply@adminmoklet.com>`,
       to: email,
-      subject: 'Your Account Password',
+      subject: 'Kata Sandi Akun Siakad Guru',
       html: htmlToSend,
     };
     transporter.sendMail(mailOptions, (err, info) => {
