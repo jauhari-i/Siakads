@@ -29,6 +29,8 @@ mongoose.connect(
   }
 );
 
+app.get('/', (req, res) => res.send(' Welcome To SIKAD TELKOM V2 '));
+
 app.use('/api', require('../apis/index'));
 
 app.get('*', (req, res) => {
