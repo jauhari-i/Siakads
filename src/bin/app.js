@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bp = require('body-parser');
 const cors = require('cors');
 const log = require('morgan');
+const path = require('path');
 const app = express();
 const port = process.env.PORT || 8080;
 require('dotenv').config();
@@ -29,7 +30,9 @@ mongoose.connect(
   }
 );
 
-app.get('/', (req, res) => res.send(' Welcome To SIKAD TELKOM V2 '));
+app.get('/', (req, res) =>
+  res.sendFile(path.join(__dirname, '../public/', 'underconstruction.html'))
+);
 
 app.use('/api', require('../apis/index'));
 
