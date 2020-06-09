@@ -1,7 +1,6 @@
-const registerGuru = require('./registerGuru');
-
 const serviceAdmin = {
-  registerGuru,
+  registerAdmin: require('./registerAdmin'),
+  registerGuru: require('./registerGuru'),
 };
 
 module.exports = serviceAdmin;

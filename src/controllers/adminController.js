@@ -14,4 +14,15 @@ controller.registerGuru = async (req, res) => {
   });
 };
 
+controller.registerAdmin = async (req, res) => {
+  const data = {
+    name: req.body.name,
+    email: req.body.email,
+  };
+  await serviceAdmin.registerAdmin(data, (err, result) => {
+    err && res.json(err);
+    res.json(result);
+  });
+};
+
 module.exports = controller;

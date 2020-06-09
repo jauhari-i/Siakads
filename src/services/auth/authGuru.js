@@ -27,7 +27,7 @@ module.exports = authGuru = async (data, cb) => {
             email: guru.email,
             roles: guru.role,
           },
-          'siakadgurutelkom',
+          'siakadsmktelkom',
           { expiresIn: '24h' }
         );
         return cb({ success: true, status: 200, token, msg: 'Login berhasil' });
@@ -38,7 +38,7 @@ module.exports = authGuru = async (data, cb) => {
         email: guru.email,
         roles: guru.role,
       },
-      'siakadgurutelkom',
+      'siakadsmktelkom',
       { expiresIn: '24h' }
     );
     return cb({ success: true, status: 200, token, msg: 'Login berhasil' });

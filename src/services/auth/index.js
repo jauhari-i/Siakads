@@ -1,7 +1,6 @@
-const loginGuru = require('./authGuru');
-
 const authServices = {
-  loginGuru,
+  loginGuru: require('./authGuru'),
+  loginAdmin: require('./authAdmin'),
 };
 
 module.exports = authServices;

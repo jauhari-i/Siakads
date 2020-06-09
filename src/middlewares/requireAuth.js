@@ -8,7 +8,7 @@ module.exports = checkToken = async (req, res, next) => {
         message: 'invalid token',
       })
       .status(401);
-  await jwt.verify(token, 'siakadgurutelkom', (err, decoded) => {
+  await jwt.verify(token, 'siakadsmktelkom', (err, decoded) => {
     err &&
       res
         .json({

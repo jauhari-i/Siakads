@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const guruSchema = new mongoose.Schema({
+const adminSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -33,3 +33,5 @@ const guruSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
+
+module.exports = Admin = mongoose.model('admin', adminSchema);
