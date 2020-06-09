@@ -4,7 +4,7 @@ const bp = require('body-parser');
 const cors = require('cors');
 const log = require('morgan');
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 8080;
 require('dotenv').config();
 
 app.use(cors());
