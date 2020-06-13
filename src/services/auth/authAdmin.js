@@ -13,7 +13,6 @@ module.exports = authGuru = async (data, cb) => {
       error: 'Password harus diisi',
     });
   validation.length > 0 && cb({ success: false, status: 500, validation });
-
   await Admin.findOne({ email: data.email }).then(async (admin) => {
     const isMatch = await decryptPass(data.password, admin.password);
     if (!isMatch)
@@ -23,7 +22,7 @@ module.exports = authGuru = async (data, cb) => {
         msg: 'Password yang anda masukkan salah',
       });
     let token = jwt.sign(
-      { email: admin.email, roles: admin.roles },
+      { email: admin.email, roles: admin.roles, sub: admin._id },
       'siakadsmktelkom',
       { expiresIn: '24h' }
     );
@@ -31,7 +30,7 @@ module.exports = authGuru = async (data, cb) => {
       success: true,
       status: 200,
       msg: 'Login Berhasil',
-      token: token,
+      data: { token: token },
     });
   });
 };

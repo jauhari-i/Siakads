@@ -26,21 +26,33 @@ module.exports = authGuru = async (data, cb) => {
           {
             email: guru.email,
             roles: guru.role,
+            sub: guru._id,
           },
           'siakadsmktelkom',
           { expiresIn: '24h' }
         );
-        return cb({ success: true, status: 200, token, msg: 'Login berhasil' });
+        return cb(null, {
+          success: true,
+          status: 200,
+          data: { token: token },
+          msg: 'Login berhasil',
+        });
       });
     }
     let token = jwt.sign(
       {
         email: guru.email,
         roles: guru.role,
+        sub: guru._id,
       },
       'siakadsmktelkom',
       { expiresIn: '24h' }
     );
-    return cb({ success: true, status: 200, token, msg: 'Login berhasil' });
+    return cb(null, {
+      success: true,
+      status: 200,
+      data: { token: token },
+      msg: 'Login berhasil',
+    });
   });
 };

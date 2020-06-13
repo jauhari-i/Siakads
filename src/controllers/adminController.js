@@ -25,4 +25,15 @@ controller.registerAdmin = async (req, res) => {
   });
 };
 
+controller.registerSiswa = async (req, res) => {
+  const data = {
+    name: req.body.name,
+    email: req.body.email,
+  };
+  await serviceAdmin.registerSiswa(data, (err, result) => {
+    err && res.json(err);
+    res.json(result);
+  });
+};
+
 module.exports = controller;
