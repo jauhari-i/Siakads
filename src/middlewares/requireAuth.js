@@ -3,19 +3,16 @@ const jwt = require('jsonwebtoken');
 module.exports = checkToken = async (req, res, next) => {
   let token = req.headers['x-access-token'] || req.headers['authorization'];
   !token &&
-    res
-      .json({
-        message: 'invalid token',
-      })
-      .status(401);
+    res.status(403).json({
+      msg: 'Login terlebih dahulu',
+    });
   await jwt.verify(token, 'siakadsmktelkom', (err, decoded) => {
     err &&
-      res
-        .json({
-          status: 401,
-          message: err,
-        })
-        .status(401);
+      res.status(401).json({
+        status: 401,
+        msg: 'Token tidak valid, silahkan login kembali',
+        err,
+      });
     req.decoded = decoded;
     next();
   });

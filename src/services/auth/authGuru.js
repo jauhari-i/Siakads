@@ -61,7 +61,7 @@ module.exports = authGuru = async (data, cb) => {
       cb({
         success: false,
         status: 500,
-        msg: 'Email tidak valid atau tidak ditemukan',
+        msg: 'Nik tidak valid atau tidak ditemukan',
       });
     });
 };

@@ -36,12 +36,15 @@ app.get('/', (req, res) =>
 
 app.use('/api', require('../apis/index'));
 
-app.get('*', (req, res) => {
-  res.json({
-    message: 'url: ' + req.url + ' not found',
+app.use(function (req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  res.status(404).json({
+    message: req.method + ' ' + req.url + ' not found',
     error: 'NoPathExist',
     code: 404,
   });
+  next();
 });
 
 app.listen(port, () => console.log(`Siakad app listening on port ${port}!`));

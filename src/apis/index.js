@@ -7,5 +7,6 @@ const app = express();
 
 app.use('/admin', require('./admin'));
 app.use('/auth', basicAuth, require('./auth'));
+app.use('/guru', [requireAuth, onlyTeacher], require('./guru'));
 
 module.exports = app;
