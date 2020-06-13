@@ -1,8 +1,17 @@
 const express = require('express');
-const app = express();
 const mongoose = require('mongoose');
-const port = 8080;
+const bp = require('body-parser');
+const cors = require('cors');
+const log = require('morgan');
+const path = require('path');
+const app = express();
+const port = require('../constants/port');
 require('dotenv').config();
+
+app.use(cors());
+app.use(log('dev'));
+app.use(bp.json());
+app.use(bp.urlencoded({ extended: false }));
 
 mongoose.connect(
   process.env.MONGO_URL,
@@ -21,5 +30,18 @@ mongoose.connect(
   }
 );
 
-app.get('/', (req, res) => res.send('Hello World!'));
+app.get('/', (req, res) =>
+  res.sendFile(path.join(__dirname, '../public/', 'underconstruction.html'))
+);
+
+app.use('/api', require('../apis/index'));
+
+app.get('*', (req, res) => {
+  res.json({
+    message: 'url: ' + req.url + ' not found',
+    error: 'NoPathExist',
+    code: 404,
+  });
+});
+
 app.listen(port, () => console.log(`Siakad app listening on port ${port}!`));

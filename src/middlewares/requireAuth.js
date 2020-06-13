@@ -1,0 +1,22 @@
+const jwt = require('jsonwebtoken');
+
+module.exports = checkToken = async (req, res, next) => {
+  let token = req.headers['x-access-token'] || req.headers['authorization'];
+  !token &&
+    res
+      .json({
+        message: 'invalid token',
+      })
+      .status(401);
+  await jwt.verify(token, 'siakadsmktelkom', (err, decoded) => {
+    err &&
+      res
+        .json({
+          status: 401,
+          message: err,
+        })
+        .status(401);
+    req.decoded = decoded;
+    next();
+  });
+};
