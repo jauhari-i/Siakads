@@ -5,7 +5,7 @@ const cors = require('cors');
 const log = require('morgan');
 const path = require('path');
 const app = express();
-const port = process.env.PORT || 8080;
+const port = require('../constants/port');
 require('dotenv').config();
 
 app.use(cors());
@@ -43,4 +43,5 @@ app.get('*', (req, res) => {
     code: 404,
   });
 });
+
 app.listen(port, () => console.log(`Siakad app listening on port ${port}!`));

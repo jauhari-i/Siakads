@@ -18,10 +18,6 @@ const siswaSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  profile: {
-    type: String,
-    required: false,
-  },
   imgUrl: {
     type: String,
     required: false,
