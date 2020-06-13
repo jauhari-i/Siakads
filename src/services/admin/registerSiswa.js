@@ -18,7 +18,11 @@ module.exports = registerSiswa = async (data, cb) => {
   const passwordBase = data.name.slice(0, 5);
   const password = passwordBase.toLowerCase();
   const encPass = await encryptPass(password, 10);
-  await Siswa.create({ name: data.name, email: data.email, password: encPass })
+  await Siswa.create({
+    name: data.name,
+    email: data.email,
+    password: encPass,
+  })
     .then(async (siswa) => {
       const siswaAll = await Siswa.find();
       const date = new Date();
@@ -36,5 +40,8 @@ module.exports = registerSiswa = async (data, cb) => {
       await Ijazah.create({ namaLengkap: data.name, siswaId: siswa._id });
       cb(null, { success: true, status: 200, msg: 'Siswa telah terdaftar' });
     })
-    .catch((err) => errorCb({ success: false, status: 500, err }));
+    .catch((err) => {
+      console.log(err);
+      errorCb({ success: false, status: 500, msg: 'Email telah terdaftar' });
+    });
 };

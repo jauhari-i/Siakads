@@ -22,6 +22,7 @@ module.exports = registerAdmin = async (data, cb) => {
     .then((admin) => {
       sendEmailAdmin(admin.email, admin.name, password, (err, info) => {
         if (err) {
+          Admin.deleteOne({ _id: admin._id });
           return cb({
             success: true,
             status: 500,
@@ -32,6 +33,10 @@ module.exports = registerAdmin = async (data, cb) => {
             success: true,
             status: 200,
             msg: admin.email + ' Berhasil Terdaftar',
+            mail: {
+              tujuan: info.accepted,
+              mailId: info.messageId,
+            },
           });
         }
       });

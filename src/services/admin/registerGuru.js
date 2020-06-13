@@ -55,8 +55,11 @@ module.exports = registerGuru = async (data, cb) => {
               cb({
                 success: true,
                 status: 200,
-                msg: 'Guru berhasil terdaftar',
-                more: info,
+                msg: guru.email + ' berhasil terdaftar',
+                mail: {
+                  tujuan: info.accepted,
+                  mailId: info.messageId,
+                },
               });
             }
           );

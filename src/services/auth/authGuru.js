@@ -3,6 +3,12 @@ const decryptPass = require('../../config/decryptPass');
 const Guru = require('../../models/Guru');
 
 module.exports = authGuru = async (data, cb) => {
+  const errorCb = (err) => {
+    return cb(err);
+  };
+  const successCb = (data) => {
+    return cb(null, data);
+  };
   let validation = [];
   !data.nik &&
     validation.push({
@@ -12,13 +18,13 @@ module.exports = authGuru = async (data, cb) => {
     validation.push({
       error: 'Password harus diisi',
     });
-  validation.length > 0 && cb({ success: false, status: 500, validation });
+  validation.length > 0 && errorCb({ success: false, status: 500, validation });
 
   await Guru.findOne({ nik: data.nik })
     .then(async (guru) => {
       const isMatch = await decryptPass(data.password, guru.password);
       !isMatch &&
-        cb({ success: false, status: 400, msg: 'Password tidak sama' });
+        errorCb({ success: false, status: 400, msg: 'Password tidak sama' });
       if (guru.verified === 0) {
         Guru.findByIdAndUpdate(guru._id, {
           verified: 1,
@@ -33,7 +39,7 @@ module.exports = authGuru = async (data, cb) => {
             'siakadsmktelkom',
             { expiresIn: '24h' }
           );
-          return cb(null, {
+          successCb({
             success: true,
             status: 200,
             data: { token: token },
@@ -50,7 +56,7 @@ module.exports = authGuru = async (data, cb) => {
         'siakadsmktelkom',
         { expiresIn: '24h' }
       );
-      return cb(null, {
+      successCb({
         success: true,
         status: 200,
         data: { token: token },
@@ -58,7 +64,7 @@ module.exports = authGuru = async (data, cb) => {
       });
     })
     .catch((err) => {
-      cb({
+      errorCb({
         success: false,
         status: 500,
         msg: 'Nik tidak valid atau tidak ditemukan',

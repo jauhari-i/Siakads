@@ -3,6 +3,9 @@ const decryptPass = require('../../config/decryptPass');
 const Admin = require('../../models/Admin');
 
 module.exports = authGuru = async (data, cb) => {
+  const errorCb = (err) => {
+    return cb(err);
+  };
   let validation = [];
   !data.email &&
     validation.push({
@@ -12,12 +15,12 @@ module.exports = authGuru = async (data, cb) => {
     validation.push({
       error: 'Password harus diisi',
     });
-  validation.length > 0 && cb({ success: false, status: 500, validation });
+  validation.length > 0 && errorCb({ success: false, status: 500, validation });
   await Admin.findOne({ email: data.email })
     .then(async (admin) => {
       const isMatch = await decryptPass(data.password, admin.password);
-      if (!isMatch)
-        return cb({
+      !isMatch &&
+        errorCb({
           success: false,
           status: 500,
           msg: 'Password yang anda masukkan salah',
@@ -35,7 +38,7 @@ module.exports = authGuru = async (data, cb) => {
       });
     })
     .catch((err) => {
-      cb({
+      errorCb({
         success: false,
         status: 500,
         msg: 'Email tidak valid atau tidak ditemukan',
