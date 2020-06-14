@@ -40,7 +40,7 @@ app.use(function (req, res, next) {
   err.status = 404;
   res.status(404).json({
     message: req.method + ' ' + req.url + ' not found',
-    error: 'NoPathExist',
+    error: 'NoEndpointExist',
     code: 404,
   });
   next();

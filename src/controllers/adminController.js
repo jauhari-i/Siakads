@@ -36,4 +36,17 @@ controller.registerSiswa = async (req, res) => {
   });
 };
 
+controller.registerKelas = async (req, res) => {
+  const data = {
+    namaKelas: req.body.namaKelas,
+    jurusan: req.body.jurusan,
+    waliKelas: req.body.waliKelas,
+    tingkat: req.body.tingkat,
+  };
+  await serviceAdmin.registerKelas(data, (err, result) => {
+    err && res.json(err);
+    res.json(result);
+  });
+};
+
 module.exports = controller;
