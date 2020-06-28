@@ -13,7 +13,7 @@ module.exports = sendVerificationEmail = async (email, nama, token, role, cb) =>
   readHtmlFile(path.join(__dirname, '../public/mail-reset.html'), (err, html) => {
     err && cb(err);
     const template = handlebars.compile(html);
-    const link = `https://siakadsmktelkom.herokuapp.com/api/reset/password/${role}/${token}`;
+    const link = `http://localhost:8080/api/reset/password/${role}/${token}`;
     const data = {
       nama: nama,
       link: link,

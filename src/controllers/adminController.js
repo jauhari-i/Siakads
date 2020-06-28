@@ -49,4 +49,69 @@ controller.registerKelas = async (req, res) => {
   });
 };
 
+controller.readGuruAll = async (req, res) => {
+  await serviceAdmin.readIndex.readGuruAll((err, result) => {
+    err && res.json(err);
+    res.json(result);
+  });
+};
+
+controller.readGuruOne = async (req, res) => {
+  const id = req.params.id;
+  await serviceAdmin.readIndex.readGuruOne(id, (err, result) => {
+    err && res.json(err);
+    res.json(result);
+  });
+};
+
+controller.readKelasAll = async (req, res) => {
+  await serviceAdmin.readIndex.readKelasAll((err, result) => {
+    err && res.json(err);
+    res.json(result);
+  });
+};
+
+controller.readKelasOne = async (req, res) => {
+  const id = req.params.id;
+  await serviceAdmin.readIndex.readKelasOne(id, (err, result) => {
+    err && res.json(err);
+    res.json(result);
+  });
+};
+
+controller.readSiswaAll = async (req, res) => {
+  await serviceAdmin.readIndex.readSiswaAll((err, result) => {
+    err && res.json(err);
+    res.json(result);
+  });
+};
+
+controller.readSiswaOne = async (req, res) => {
+  await serviceAdmin.readIndex.readSiswaOne(req.params.id, (err, result) => {
+    err && res.json(err);
+    res.json(result);
+  });
+};
+
+controller.readAyahSiswa = async (req, res) => {
+  await serviceAdmin.readIndex.readAyahSiswaOne(req.params.id, (err, result) => {
+    err && res.json(err);
+    res.json(result);
+  });
+};
+
+controller.readIbuSiswa = async (req, res) => {
+  await serviceAdmin.readIndex.readIbuSiswaOne(req.params.id, (err, result) => {
+    err && res.json(err);
+    res.json(result);
+  });
+};
+
+controller.readWaliSiswa = async (req, res) => {
+  await serviceAdmin.readIndex.readWaliSiswaOne(req.params.id, (err, result) => {
+    err && res.json(err);
+    res.json(result);
+  });
+};
+
 module.exports = controller;
