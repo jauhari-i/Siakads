@@ -114,4 +114,106 @@ controller.readWaliSiswa = async (req, res) => {
   });
 };
 
+controller.editGuru = async (req, res) => {
+  const id = req.params.id;
+  const data = {
+    email: req.body.email,
+    nik: req.body.nik,
+    name: req.body.name,
+  };
+  if (req.file) {
+    const file = req.file;
+    await serviceAdmin.editIndex.editGuruWithImage(id, data, file, (err, result) => {
+      err && res.json(err);
+      res.json(result);
+    });
+  } else {
+    await serviceAdmin.editIndex.editGuru(id, data, (err, result) => {
+      err && res.json(err);
+      res.json(result);
+    });
+  }
+};
+
+controller.editSiswa = async (req, res) => {
+  const id = req.params.id;
+  const data = {
+    email: req.body.email,
+    name: req.body.name,
+    kelas: req.body.kelas,
+  };
+  if (req.file) {
+    const file = req.file;
+    await serviceAdmin.editIndex.editSiswaWithImage(id, data, file, (err, result) => {
+      err && res.json(err);
+      res.json(result);
+    });
+  } else {
+    await serviceAdmin.editIndex.editSiswa(id, data, (err, result) => {
+      err && res.json(err);
+      res.json(result);
+    });
+  }
+};
+
+controller.editAyahSiswa = async (req, res) => {
+  const id = req.params.id;
+  const data = {
+    nama: req.body.nama,
+    tempatLahir: req.body.tempatLahir,
+    agama: req.body.agama,
+    wargaNegara: req.body.wargaNegara,
+    pendidikan: req.body.pendidikan,
+    pekerjaan: req.body.pekerjaan,
+    penghasilan: req.body.penghasilan,
+    alamat: req.body.alamat,
+    tlp: req.body.tlp,
+    tahunMeninggal: req.body.tahunMeninggal,
+  };
+  await serviceAdmin.editIndex.editAyahSiswa(id, data, (err, result) => {
+    err && res.json(err);
+    res.json(result);
+  });
+};
+
+controller.editIbuSiswa = async (req, res) => {
+  const id = req.params.id;
+  const data = {
+    nama: req.body.nama,
+    tempatLahir: req.body.tempatLahir,
+    agama: req.body.agama,
+    wargaNegara: req.body.wargaNegara,
+    pendidikan: req.body.pendidikan,
+    pekerjaan: req.body.pekerjaan,
+    penghasilan: req.body.penghasilan,
+    alamat: req.body.alamat,
+    tlp: req.body.tlp,
+    tahunMeninggal: req.body.tahunMeninggal,
+  };
+  await serviceAdmin.editIndex.editIbuSiswa(id, data, (err, result) => {
+    err && res.json(err);
+    res.json(result);
+  });
+};
+
+controller.editWaliSiswa = async (req, res) => {
+  const id = req.params.id;
+  const data = {
+    nama: req.body.nama,
+    tempatLahir: req.body.tempatLahir,
+    agama: req.body.agama,
+    wargaNegara: req.body.wargaNegara,
+    pendidikan: req.body.pendidikan,
+    pekerjaan: req.body.pekerjaan,
+    penghasilan: req.body.penghasilan,
+    alamat: req.body.alamat,
+    tlp: req.body.tlp,
+    tahunMeninggal: req.body.tahunMeninggal,
+  };
+  await serviceAdmin.editIndex.editWaliSiswa(id, data, (err, result) => {
+    err && res.json(err);
+    res.json(result);
+  });
+};
+
 module.exports = controller;

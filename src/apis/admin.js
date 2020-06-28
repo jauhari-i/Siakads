@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const parser = require('../middlewares/uploadImgProfile');
 
 const adminController = require('../controllers/adminController');
 
@@ -17,5 +18,11 @@ app.get('/read/siswa/:id', adminController.readSiswaOne);
 app.get('/read/ayah/siswa/:id', adminController.readAyahSiswa);
 app.get('/read/ibu/siswa/:id', adminController.readIbuSiswa);
 app.get('/read/wali/siswa/:id', adminController.readWaliSiswa);
+
+app.put('/edit/guru/:id', parser.single('img'), adminController.editGuru);
+app.put('/edit/siswa/:id', parser.single('img'), adminController.editSiswa);
+app.put('/edit/ayah/siswa/:id', adminController.editAyahSiswa);
+app.put('/edit/ibu/siswa/:id', adminController.editIbuSiswa);
+app.put('/edit/wali/siswa/:id', adminController.editWaliSiswa);
 
 module.exports = app;
