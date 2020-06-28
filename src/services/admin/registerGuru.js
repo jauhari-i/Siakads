@@ -1,6 +1,5 @@
 const encryptPass = require('../../config/encryptPass');
 const generator = require('generate-password');
-const defaultPass = require('../../constants/passwordDefault');
 const sendVerificationEmail = require('../../middlewares/sendPassEmail');
 
 const Guru = require('../../models/Guru');
@@ -46,23 +45,18 @@ module.exports = registerGuru = async (data, cb) => {
     .then((guru) => {
       ProfilGuru.create({ guruId: guru._id })
         .then((created) => {
-          sendVerificationEmail(
-            data.email,
-            data.name,
-            password,
-            (err, info) => {
-              err && cb(err);
-              cb({
-                success: true,
-                status: 200,
-                msg: guru.email + ' berhasil terdaftar',
-                mail: {
-                  tujuan: info.accepted,
-                  mailId: info.messageId,
-                },
-              });
-            }
-          );
+          sendVerificationEmail(data.email, data.name, password, (err, info) => {
+            err && cb(err);
+            cb({
+              success: true,
+              status: 200,
+              msg: guru.email + ' berhasil terdaftar',
+              mail: {
+                tujuan: info.accepted,
+                mailId: info.messageId,
+              },
+            });
+          });
         })
         .catch((err) => {
           return cb({ success: false, status: 500, error: err });
