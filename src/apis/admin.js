@@ -25,4 +25,8 @@ app.put('/edit/ayah/siswa/:id', adminController.editAyahSiswa);
 app.put('/edit/ibu/siswa/:id', adminController.editIbuSiswa);
 app.put('/edit/wali/siswa/:id', adminController.editWaliSiswa);
 
+app.delete('/delete/guru/:id', adminController.deleteGuru);
+app.delete('/delete/kelas/:id', adminController.deleteKelas);
+app.delete('/delete/siswa/:id', adminController.deleteSiswa);
+
 module.exports = app;

@@ -9,7 +9,7 @@ controller.registerGuru = async (req, res) => {
     email: req.body.email,
   };
   await serviceAdmin.registerGuru(data, (err, result) => {
-    err && res.json(err);
+    err && res.status(err.status).json(err);
     res.json(result);
   });
 };
@@ -20,7 +20,7 @@ controller.registerAdmin = async (req, res) => {
     email: req.body.email,
   };
   await serviceAdmin.registerAdmin(data, (err, result) => {
-    err && res.json(err);
+    err && res.status(err.status).json(err);
     res.json(result);
   });
 };
@@ -31,7 +31,7 @@ controller.registerSiswa = async (req, res) => {
     email: req.body.email,
   };
   await serviceAdmin.registerSiswa(data, (err, result) => {
-    err && res.json(err);
+    err && res.status(err.status).json(err);
     res.json(result);
   });
 };
@@ -44,14 +44,14 @@ controller.registerKelas = async (req, res) => {
     tingkat: req.body.tingkat,
   };
   await serviceAdmin.registerKelas(data, (err, result) => {
-    err && res.json(err);
+    err && res.status(err.status).json(err);
     res.json(result);
   });
 };
 
 controller.readGuruAll = async (req, res) => {
   await serviceAdmin.readIndex.readGuruAll((err, result) => {
-    err && res.json(err);
+    err && res.status(err.status).json(err);
     res.json(result);
   });
 };
@@ -59,14 +59,14 @@ controller.readGuruAll = async (req, res) => {
 controller.readGuruOne = async (req, res) => {
   const id = req.params.id;
   await serviceAdmin.readIndex.readGuruOne(id, (err, result) => {
-    err && res.json(err);
+    err && res.status(err.status).json(err);
     res.json(result);
   });
 };
 
 controller.readKelasAll = async (req, res) => {
   await serviceAdmin.readIndex.readKelasAll((err, result) => {
-    err && res.json(err);
+    err && res.status(err.status).json(err);
     res.json(result);
   });
 };
@@ -74,42 +74,42 @@ controller.readKelasAll = async (req, res) => {
 controller.readKelasOne = async (req, res) => {
   const id = req.params.id;
   await serviceAdmin.readIndex.readKelasOne(id, (err, result) => {
-    err && res.json(err);
+    err && res.status(err.status).json(err);
     res.json(result);
   });
 };
 
 controller.readSiswaAll = async (req, res) => {
   await serviceAdmin.readIndex.readSiswaAll((err, result) => {
-    err && res.json(err);
+    err && res.status(err.status).json(err);
     res.json(result);
   });
 };
 
 controller.readSiswaOne = async (req, res) => {
   await serviceAdmin.readIndex.readSiswaOne(req.params.id, (err, result) => {
-    err && res.json(err);
+    err && res.status(err.status).json(err);
     res.json(result);
   });
 };
 
 controller.readAyahSiswa = async (req, res) => {
   await serviceAdmin.readIndex.readAyahSiswaOne(req.params.id, (err, result) => {
-    err && res.json(err);
+    err && res.status(err.status).json(err);
     res.json(result);
   });
 };
 
 controller.readIbuSiswa = async (req, res) => {
   await serviceAdmin.readIndex.readIbuSiswaOne(req.params.id, (err, result) => {
-    err && res.json(err);
+    err && res.status(err.status).json(err);
     res.json(result);
   });
 };
 
 controller.readWaliSiswa = async (req, res) => {
   await serviceAdmin.readIndex.readWaliSiswaOne(req.params.id, (err, result) => {
-    err && res.json(err);
+    err && res.status(err.status).json(err);
     res.json(result);
   });
 };
@@ -124,12 +124,12 @@ controller.editGuru = async (req, res) => {
   if (req.file) {
     const file = req.file;
     await serviceAdmin.editIndex.editGuruWithImage(id, data, file, (err, result) => {
-      err && res.json(err);
+      err && res.status(err.status).json(err);
       res.json(result);
     });
   } else {
     await serviceAdmin.editIndex.editGuru(id, data, (err, result) => {
-      err && res.json(err);
+      err && res.status(err.status).json(err);
       res.json(result);
     });
   }
@@ -145,12 +145,12 @@ controller.editSiswa = async (req, res) => {
   if (req.file) {
     const file = req.file;
     await serviceAdmin.editIndex.editSiswaWithImage(id, data, file, (err, result) => {
-      err && res.json(err);
+      err && res.status(err.status).json(err);
       res.json(result);
     });
   } else {
     await serviceAdmin.editIndex.editSiswa(id, data, (err, result) => {
-      err && res.json(err);
+      err && res.status(err.status).json(err);
       res.json(result);
     });
   }
@@ -171,7 +171,7 @@ controller.editAyahSiswa = async (req, res) => {
     tahunMeninggal: req.body.tahunMeninggal,
   };
   await serviceAdmin.editIndex.editAyahSiswa(id, data, (err, result) => {
-    err && res.json(err);
+    err && res.status(err.status).json(err);
     res.json(result);
   });
 };
@@ -191,7 +191,7 @@ controller.editIbuSiswa = async (req, res) => {
     tahunMeninggal: req.body.tahunMeninggal,
   };
   await serviceAdmin.editIndex.editIbuSiswa(id, data, (err, result) => {
-    err && res.json(err);
+    err && res.status(err.status).json(err);
     res.json(result);
   });
 };
@@ -211,7 +211,31 @@ controller.editWaliSiswa = async (req, res) => {
     tahunMeninggal: req.body.tahunMeninggal,
   };
   await serviceAdmin.editIndex.editWaliSiswa(id, data, (err, result) => {
-    err && res.json(err);
+    err && res.status(err.status).json(err);
+    res.json(result);
+  });
+};
+
+controller.deleteGuru = async (req, res) => {
+  const id = req.params.id;
+  await serviceAdmin.deleteIndex.deleteGuru(id, (err, result) => {
+    err && res.status(err.status).json(err);
+    res.json(result);
+  });
+};
+
+controller.deleteKelas = async (req, res) => {
+  const id = req.params.id;
+  await serviceAdmin.deleteIndex.deleteKelas(id, (err, result) => {
+    err && res.status(err.status).json(err);
+    res.json(result);
+  });
+};
+
+controller.deleteSiswa = async (req, res) => {
+  const id = req.params.id;
+  await serviceAdmin.deleteIndex.deleteSiswa(id, (err, result) => {
+    err && res.status(err.status).json(err);
     res.json(result);
   });
 };
