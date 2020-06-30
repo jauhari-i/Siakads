@@ -5,6 +5,7 @@ const ProfilSiswa = require('../../models/ProfilSiswa');
 const AyahSiswa = require('../../models/AyahSiswa');
 const IbuSiswa = require('../../models/IbuSiswa');
 const WaliSiswa = require('../../models/WaliSiswa');
+const IjazahSiswa = require('../../models/IjazahSiswa');
 const { errorCb, successCb } = require('../../config/callback');
 
 module.exports = editIndex = {
@@ -334,6 +335,33 @@ module.exports = editIndex = {
         alamat: data.alamat,
         tlp: data.tlp,
         tahunMeninggal: data.tahunMeninggal ? data.tahunMeninggal : 0,
+      }
+    )
+      .then((updated) => {
+        successCb({ status: 200, success: true, msg: 'Wali siswa telah diupdate' }, cb);
+      })
+      .catch((err) => {
+        errorCb({ status: 400, success: false, msg: 'Gagal mengupdate data' }, cb);
+      });
+  },
+  editIjazahSiswa: async (id, data, cb) => {
+    let validasi = [];
+    !data.nisn && validasi.push({ error: 'NISN Tidak boleh kosong' });
+    !data.noUjianSmp && validasi.push({ error: 'No Ujian SMP Tidak boleh kosong' });
+    !data.namaLengkap && validasi.push({ error: 'Nama lengkap tidak boleh kosong' });
+    !data.tempatLahir && validasi.push({ error: 'Tempat lahir tidak boleh kosong' });
+    !data.namaAyah && validasi.push({ error: 'Nama ayah tidak boleh kosong' });
+    validasi.length > 0 &&
+      errorCb({ status: 500, success: false, msg: 'Input error', error: validasi }, cb);
+
+    IjazahSiswa.findOneAndUpdate(
+      { siswaId: id },
+      {
+        nisn: data.nisn,
+        noUjianSmp: data.noUjianSmp,
+        namaLengkap: data.namaLengkap,
+        tempatLahir: data.tempatLahir,
+        namaAyah: data.namaAyah,
       }
     )
       .then((updated) => {

@@ -216,6 +216,21 @@ controller.editWaliSiswa = async (req, res) => {
   });
 };
 
+controller.editIjazahSiswa = async (req, res) => {
+  const id = req.params.id;
+  const data = {
+    nisn: req.body.nisn,
+    noUjianSmp: req.body.noUjianSmp,
+    namaLengkap: req.body.namaLengkap,
+    tempatLahir: req.body.tempatLahir,
+    namaAyah: req.body.namaAyah,
+  };
+  await serviceAdmin.editIndex.editIjazahSiswa(id, data, (err, result) => {
+    err && res.status(err.status).json(err);
+    res.json(result);
+  });
+};
+
 controller.deleteGuru = async (req, res) => {
   const id = req.params.id;
   await serviceAdmin.deleteIndex.deleteGuru(id, (err, result) => {

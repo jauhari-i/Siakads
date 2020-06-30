@@ -24,6 +24,7 @@ app.put('/edit/siswa/:id', parser.single('img'), adminController.editSiswa);
 app.put('/edit/ayah/siswa/:id', adminController.editAyahSiswa);
 app.put('/edit/ibu/siswa/:id', adminController.editIbuSiswa);
 app.put('/edit/wali/siswa/:id', adminController.editWaliSiswa);
+app.put('/edit/ijzah/siswa/:id', adminController.editIjazahSiswa);
 
 app.delete('/delete/guru/:id', adminController.deleteGuru);
 app.delete('/delete/kelas/:id', adminController.deleteKelas);
