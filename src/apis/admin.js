@@ -18,6 +18,7 @@ app.get('/read/siswa/:id', adminController.readSiswaOne);
 app.get('/read/ayah/siswa/:id', adminController.readAyahSiswa);
 app.get('/read/ibu/siswa/:id', adminController.readIbuSiswa);
 app.get('/read/wali/siswa/:id', adminController.readWaliSiswa);
+app.get('/read/ijazah/siswa/:id', adminController.readIjazahSiswa);
 
 app.put('/edit/guru/:id', parser.single('img'), adminController.editGuru);
 app.put('/edit/siswa/:id', parser.single('img'), adminController.editSiswa);

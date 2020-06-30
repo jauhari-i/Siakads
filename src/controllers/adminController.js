@@ -114,6 +114,13 @@ controller.readWaliSiswa = async (req, res) => {
   });
 };
 
+controller.readIjazahSiswa = async (req, res) => {
+  await serviceAdmin.readIndex.readIjazahOne(req.params.id, (err, result) => {
+    err && res.status(err.status).json(err);
+    res.json(result);
+  });
+};
+
 controller.editGuru = async (req, res) => {
   const id = req.params.id;
   const data = {

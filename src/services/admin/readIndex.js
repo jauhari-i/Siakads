@@ -6,6 +6,7 @@ const ProfilSiswa = require('../../models/ProfilSiswa');
 const AyahSiswa = require('../../models/AyahSiswa');
 const IbuSiswa = require('../../models/IbuSiswa');
 const WaliSiswa = require('../../models/WaliSiswa');
+const IjazahSiswa = require('../../models/IjazahSiswa');
 const { errorCb, successCb } = require('../../config/callback');
 
 module.exports = readIndex = {
@@ -195,6 +196,23 @@ module.exports = readIndex = {
           tahunMeninggal: wali.tahunMeninggal,
         };
         successCb({ status: 200, success: true, data: dataWali }, cb);
+      })
+      .catch((err) => {
+        errorCb({ status: 404, success: false, msg: 'Id Tidak Valid atau Tidak Ditemukan' }, cb);
+      });
+  },
+  readIjazahOne: async (id, cb) => {
+    await IjazahSiswa.findOne({ siswaId: id })
+      .then((ijazah) => {
+        const dataIjazah = {
+          ids: ijazah._id,
+          nisn: ijazah.nisn,
+          noUjianSmp: ijazah.noUjianSmp,
+          namaLengkap: ijazah.namaLengkap,
+          tempatLahir: ijazah.tempatLahir,
+          namaAyah: ijazah.namaAyah,
+        };
+        successCb({ status: 200, success: true, data: dataIjazah }, cb);
       })
       .catch((err) => {
         errorCb({ status: 404, success: false, msg: 'Id Tidak Valid atau Tidak Ditemukan' }, cb);
