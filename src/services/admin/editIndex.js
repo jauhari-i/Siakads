@@ -365,7 +365,7 @@ module.exports = editIndex = {
       }
     )
       .then((updated) => {
-        successCb({ status: 200, success: true, msg: 'Wali siswa telah diupdate' }, cb);
+        successCb({ status: 200, success: true, msg: 'Ijazah siswa telah diupdate' }, cb);
       })
       .catch((err) => {
         errorCb({ status: 400, success: false, msg: 'Gagal mengupdate data' }, cb);
