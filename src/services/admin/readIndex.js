@@ -7,6 +7,7 @@ const AyahSiswa = require('../../models/AyahSiswa');
 const IbuSiswa = require('../../models/IbuSiswa');
 const WaliSiswa = require('../../models/WaliSiswa');
 const IjazahSiswa = require('../../models/IjazahSiswa');
+const Tunggakan = require('../../models/Tunggakan');
 const { errorCb, successCb } = require('../../config/callback');
 
 module.exports = readIndex = {
@@ -286,4 +287,6 @@ module.exports = readIndex = {
         );
       });
   },
+  readTunggakanAll: async (cb) => {},
+  readTunggakanOne: async (id, cb) => {},
 };
