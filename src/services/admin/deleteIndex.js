@@ -7,14 +7,7 @@ const AyahSiswa = require('../../models/AyahSiswa');
 const IbuSiswa = require('../../models/IbuSiswa');
 const WaliSiswa = require('../../models/WaliSiswa');
 const IjazahSiswa = require('../../models/IjazahSiswa');
-
-const errorCb = (err, cb) => {
-  return cb(err);
-};
-
-const successCb = (data, cb) => {
-  return cb(null, data);
-};
+const { errorCb, successCb } = require('../../config/callback');
 
 module.exports = deleteInstance = {
   deleteGuru: async (id, cb) => {

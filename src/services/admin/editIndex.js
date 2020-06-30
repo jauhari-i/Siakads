@@ -5,14 +5,7 @@ const ProfilSiswa = require('../../models/ProfilSiswa');
 const AyahSiswa = require('../../models/AyahSiswa');
 const IbuSiswa = require('../../models/IbuSiswa');
 const WaliSiswa = require('../../models/WaliSiswa');
-
-const errorCb = (err, cb) => {
-  return cb(err);
-};
-
-const successCb = (data, cb) => {
-  return cb(null, data);
-};
+const { errorCb, successCb } = require('../../config/callback');
 
 module.exports = editIndex = {
   editGuru: async (id, data, cb) => {
