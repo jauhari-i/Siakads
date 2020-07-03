@@ -6,6 +6,7 @@ const AyahSiswa = require('../../models/AyahSiswa');
 const IbuSiswa = require('../../models/IbuSiswa');
 const WaliSiswa = require('../../models/WaliSiswa');
 const IjazahSiswa = require('../../models/IjazahSiswa');
+const Tunggakan = require('../../models/Tunggakan');
 const { errorCb, successCb } = require('../../config/callback');
 
 module.exports = editIndex = {
@@ -366,6 +367,33 @@ module.exports = editIndex = {
     )
       .then((updated) => {
         successCb({ status: 200, success: true, msg: 'Ijazah siswa telah diupdate' }, cb);
+      })
+      .catch((err) => {
+        errorCb({ status: 400, success: false, msg: 'Gagal mengupdate data' }, cb);
+      });
+  },
+  editTunggakan: async (id, data, cb) => {
+    let validasi = [];
+    !data.spp && validasi.push({ error: 'SPP tidak boleh kosong' });
+    !data.dsp && validasi.push({ error: 'DSP tidak boleh kosong' });
+    !data.lainnya && validasi.push({ error: 'Lainnya tidak boleh kosong' });
+
+    validasi.length > 0 &&
+      errorCb({ status: 500, success: false, msg: 'Input error', error: validasi }, cb);
+
+    const total = Number(data.dsp) + Number(data.spp) + Number(data.lainnya);
+
+    Tunggakan.findOneAndUpdate(
+      { siswaId: id },
+      {
+        total: total,
+        spp: data.spp,
+        dsp: data.dsp,
+        lainnya: data.lainnya,
+      }
+    )
+      .then((updated) => {
+        successCb({ status: 200, success: true, msg: 'Tunggakan siswa telah diupdate' }, cb);
       })
       .catch((err) => {
         errorCb({ status: 400, success: false, msg: 'Gagal mengupdate data' }, cb);

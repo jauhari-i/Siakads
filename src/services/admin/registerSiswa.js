@@ -5,6 +5,7 @@ const AyahSiswa = require('../../models/AyahSiswa');
 const IbuSiswa = require('../../models/IbuSiswa');
 const WaliSiswa = require('../../models/WaliSiswa');
 const Ijazah = require('../../models/IjazahSiswa');
+const Tunggakan = require('../../models/Tunggakan');
 
 module.exports = registerSiswa = async (data, cb) => {
   const errorCb = (err) => {
@@ -15,7 +16,8 @@ module.exports = registerSiswa = async (data, cb) => {
   !data.name && validation.push({ error: 'Nama tidak boleh kosong' });
   !data.email && validation.push({ error: 'Email tidak boleh kosong' });
   validation.length > 0 && errorCb({ success: false, status: 500, validation });
-  const passwordBase = data.name.slice(0, 5);
+  const nameSiswa = data.name.replace(/\s/g, '');
+  const passwordBase = nameSiswa.slice(0, 5);
   const password = passwordBase.toLowerCase();
   const encPass = await encryptPass(password, 10);
   await Siswa.create({
@@ -38,6 +40,7 @@ module.exports = registerSiswa = async (data, cb) => {
       await IbuSiswa.create({ siswaId: siswa._id });
       await WaliSiswa.create({ siswaId: siswa._id });
       await Ijazah.create({ namaLengkap: data.name, siswaId: siswa._id });
+      await Tunggakan.create({ siswaId: siswa._id });
       cb(null, { success: true, status: 200, msg: 'Siswa telah terdaftar' });
     })
     .catch((err) => {

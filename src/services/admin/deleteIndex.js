@@ -7,6 +7,7 @@ const AyahSiswa = require('../../models/AyahSiswa');
 const IbuSiswa = require('../../models/IbuSiswa');
 const WaliSiswa = require('../../models/WaliSiswa');
 const IjazahSiswa = require('../../models/IjazahSiswa');
+const Tunggakan = require('../../models/Tunggakan');
 const { errorCb, successCb } = require('../../config/callback');
 
 module.exports = deleteInstance = {
@@ -66,6 +67,7 @@ module.exports = deleteInstance = {
         await IbuSiswa.findOneAndRemove({ siswaId: id });
         await WaliSiswa.findOneAndRemove({ siswaId: id });
         await IjazahSiswa.findOneAndRemove({ siswaId: id });
+        await Tunggakan.findByIdAndRemove({ siswaId: id });
         successCb({ status: 200, success: true, msg: 'Siswa telah dihapus' }, cb);
       })
       .catch((err) => {

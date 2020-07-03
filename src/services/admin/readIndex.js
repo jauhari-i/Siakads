@@ -287,6 +287,82 @@ module.exports = readIndex = {
         );
       });
   },
-  readTunggakanAll: async (cb) => {},
-  readTunggakanOne: async (id, cb) => {},
+  readTunggakanAll: async (cb) => {
+    const tunggakanData = await Tunggakan.find();
+    tunggakanData.length === 0 &&
+      successCb({ status: 200, success: true, data: [], msg: 'Data Tunggakan Kosong' }, cb);
+
+    let tunggakanAll = [];
+    tunggakanData.map((item) => {
+      Siswa.findById(item.siswaId)
+        .then((siswa) => {
+          tunggakanAll.push({
+            ids: item._id,
+            total: item.total,
+            spp: item.spp,
+            dsp: item.dsp,
+            lainnya: item.lainnya,
+            siswa: { ids: siswa._id, nama: siswa.name, email: siswa.email },
+          });
+          if (tunggakanAll.length === tunggakanData.length) {
+            return successCb(
+              {
+                status: 200,
+                success: true,
+                msg: tunggakanAll.length + ' Ditemukan',
+                data: tunggakanAll,
+              },
+              cb
+            );
+          }
+        })
+        .catch((err) => {
+          return errorCb(
+            {
+              status: 404,
+              success: false,
+              msg: 'Siswa Tidak Valid atau Tidak Ditemukan',
+            },
+            cb
+          );
+        });
+    });
+  },
+  readTunggakanOne: async (id, cb) => {
+    await Tunggakan.findOne({ siswaId: id })
+      .then((tsiswa) => {
+        Siswa.findById(id)
+          .then((siswa) => {
+            const dataTunggakan = {
+              ids: tsiswa._id,
+              total: tsiswa.total,
+              spp: tsiswa.spp,
+              dsp: tsiswa.dsp,
+              lainnya: tsiswa.lainnya,
+              siswa: { ids: siswa._id, nama: siswa.name, email: siswa.email },
+            };
+            successCb({ status: 200, success: true, data: dataTunggakan }, cb);
+          })
+          .catch((err) => {
+            errorCb(
+              {
+                status: 404,
+                success: false,
+                msg: 'Siswa Tidak Valid atau Tidak Ditemukan 2',
+              },
+              cb
+            );
+          });
+      })
+      .catch((err) => {
+        errorCb(
+          {
+            status: 404,
+            success: false,
+            msg: 'Siswa Tidak Valid atau Tidak Ditemukan',
+          },
+          cb
+        );
+      });
+  },
 };

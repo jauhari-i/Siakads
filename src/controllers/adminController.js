@@ -121,6 +121,20 @@ controller.readIjazahSiswa = async (req, res) => {
   });
 };
 
+controller.readTunggakanAll = async (req, res) => {
+  await serviceAdmin.readIndex.readTunggakanAll((err, result) => {
+    err && res.status(err.status).json(err);
+    res.json(result);
+  });
+};
+
+controller.readTunggakanOne = async (req, res) => {
+  await serviceAdmin.readIndex.readTunggakanOne(req.params.id, (err, result) => {
+    err && res.status(err.status).json(err);
+    res.json(result);
+  });
+};
+
 controller.editGuru = async (req, res) => {
   const id = req.params.id;
   const data = {
@@ -233,6 +247,17 @@ controller.editIjazahSiswa = async (req, res) => {
     namaAyah: req.body.namaAyah,
   };
   await serviceAdmin.editIndex.editIjazahSiswa(id, data, (err, result) => {
+    err && res.status(err.status).json(err);
+    res.json(result);
+  });
+};
+
+controller.editTunggakanSiswa = async (req, res) => {
+  const data = {
+    spp: req.body.spp,
+    dsp: req.body.dsp,
+  };
+  await serviceAdmin.editIndex.editTunggakan(req.params.id, data, (err, result) => {
     err && res.status(err.status).json(err);
     res.json(result);
   });
