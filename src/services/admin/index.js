@@ -6,6 +6,7 @@ const serviceAdmin = {
   readIndex: require('./readIndex'),
   editIndex: require('./editIndex'),
   deleteIndex: require('./deleteIndex'),
+  pelanggaranIndex: require('./pelanggaranIndex'),
 };
 
 module.exports = serviceAdmin;
