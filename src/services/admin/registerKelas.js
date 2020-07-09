@@ -40,13 +40,14 @@ module.exports = registerKelas = async (data, cb) => {
             },
           });
         })
-        .catch((err) =>
+        .catch((err) => {
+          console.log(err);
           errorCb({
             success: false,
             status: 500,
             msg: 'Guru telah terdaftar sebagai wali kelas lain',
-          })
-        );
+          });
+        });
     })
     .catch((err) =>
       errorCb({

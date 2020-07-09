@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const parser = require('../middlewares/uploadImgProfile');
 
-const adminController = require('../controllers/adminController');
+const { adminController } = require('../controllers/index');
 
 app.post('/register/admin', adminController.registerAdmin);
 app.post('/register/guru', adminController.registerGuru);
@@ -33,5 +33,8 @@ app.put('/edit/tunggakan/siswa/:id', adminController.editTunggakanSiswa);
 app.delete('/delete/guru/:id', adminController.deleteGuru);
 app.delete('/delete/kelas/:id', adminController.deleteKelas);
 app.delete('/delete/siswa/:id', adminController.deleteSiswa);
+
+// service
+app.get('/register/siswakelas/:siswa/:kelas', adminController.registerKelasSiswa);
 
 module.exports = app;

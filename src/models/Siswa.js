@@ -24,7 +24,7 @@ const siswaSchema = new mongoose.Schema({
     default:
       'https://res.cloudinary.com/siakadsmktelkommalang/image/upload/v1591678783/269-2697881_computer-icons-user-clip-art-transparent-png-icon_yi1dtt.png',
   },
-  kelasId: {
+  kelas: {
     type: String,
     default: '',
   },

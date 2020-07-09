@@ -1,4 +1,5 @@
 const serviceAdmin = require('../services/admin/index');
+const serviceKelas = require('../services/kelas/index');
 
 const controller = {};
 
@@ -44,6 +45,20 @@ controller.registerKelas = async (req, res) => {
     tingkat: req.body.tingkat,
   };
   await serviceAdmin.registerKelas(data, (err, result) => {
+    err && res.status(err.status).json(err);
+    res.json(result);
+  });
+};
+
+controller.registerKelasSiswa = async (req, res) => {
+  const siswa = req.params.siswa;
+  const kelas = req.params.kelas;
+
+  const data = {
+    idKelas: kelas,
+    idSiswa: siswa,
+  };
+  await serviceKelas.registerSiswaKelas(data, (err, result) => {
     err && res.status(err.status).json(err);
     res.json(result);
   });

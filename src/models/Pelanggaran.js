@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const PelanggaranSchema = new mongoose.Schema({
-  siswaId: {
+  siswa: {
     type: String,
   },
   jenis: {
-    type: String,
+    type: Object,
   },
   guru: {
     type: String,
@@ -16,4 +16,4 @@ const PelanggaranSchema = new mongoose.Schema({
   },
 });
 
-module.exports = Pelanggaran = mongoose.model('pelanggara', PelanggaranSchema);
+module.exports = Pelanggaran = mongoose.model('pelanggaran', PelanggaranSchema);

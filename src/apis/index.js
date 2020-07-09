@@ -9,5 +9,6 @@ app.use('/admin', require('./admin'));
 app.use('/auth', basicAuth, require('./auth'));
 app.use('/reset/password', require('./reset'));
 app.use('/guru', [requireAuth, onlyTeacher], require('./guru'));
+app.use('/pelanggaran', require('./pelanggaran'));
 
 module.exports = app;
