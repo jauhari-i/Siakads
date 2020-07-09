@@ -76,11 +76,13 @@ module.exports = pelanggaranInstance = {
   },
   addPelanggaran: async (data, cb) => {
     const siswaD = await Siswa.findById(data.idSiswa);
-    !siswaD && errorCb({ status: 404, success: false, msg: 'Siswa tidak ditemukan' }, cb);
     const jenisP = await JenisPelanggaran.findById(data.idJenisP);
-    !jenisP && errorCb({ status: 404, success: false, msg: 'Pelanggaran tidak ditemukan' }, cb);
     const guruD = await Guru.findById(data.idGuru);
-    !guruD && errorCb({ status: 404, success: false, msg: 'Guru tidak ditemukan' }, cb);
+
+    siswaD === null && errorCb({ status: 404, success: false, msg: 'Siswa tidak ditemukan' }, cb);
+    jenisP === null &&
+      errorCb({ status: 404, success: false, msg: 'Pelanggaran tidak ditemukan' }, cb);
+    guruD === null && errorCb({ status: 404, success: false, msg: 'Guru tidak ditemukan' }, cb);
 
     const jenis = {
       _id: jenisP._id,
@@ -103,53 +105,68 @@ module.exports = pelanggaranInstance = {
       });
   },
   readKategoriAll: async (cb) => {
-    const kategoriD = await Kategori.find();
-    const kat = kategoriD.map((k) => ({
-      ids: k._id,
-      namaKategori: k.namaKategori,
-    }));
-    successCb({ status: 200, success: true, data: kat }, cb);
+    try {
+      const kategoriD = await Kategori.find();
+      const kat = kategoriD.map((k) => ({
+        ids: k._id,
+        namaKategori: k.namaKategori,
+      }));
+      successCb({ status: 200, success: true, data: kat }, cb);
+    } catch (err) {
+      errorCb({ status: 500, success: false, msg: 'Internal server error' }, cb);
+    }
   },
   readJenisPelanggaranAll: async (cb) => {
-    const jenisP = await JenisPelanggaran.find();
-    const jenis = jenisP.map((j) => ({
-      ids: j._id,
-      namaPelanggaran: j.namaPelanggaran,
-      kategori: j.namaKategori,
-      deskripsi: j.deskripsi,
-      poin: j.poin,
-    }));
-    successCb({ status: 200, success: true, data: jenis }, cb);
+    try {
+      const jenisP = await JenisPelanggaran.find();
+      const jenis = jenisP.map((j) => ({
+        ids: j._id,
+        namaPelanggaran: j.namaPelanggaran,
+        kategori: j.namaKategori,
+        deskripsi: j.deskripsi,
+        poin: j.poin,
+      }));
+      successCb({ status: 200, success: true, data: jenis }, cb);
+    } catch (err) {
+      errorCb({ status: 500, success: false, msg: 'Internal server error' }, cb);
+    }
   },
   readPelanggaranAll: async (cb) => {
-    const pelanggaranD = await Pelanggaran.find();
-    const pel = pelanggaranD.map((p) => ({
-      ids: p._id,
-      siswa: p.siswa,
-      jenis: p.jenis,
-      guru: p.guru,
-      tgl: p.created_at,
-    }));
-    successCb({ status: 200, success: true, data: pel }, cb);
+    try {
+      const pelanggaranD = await Pelanggaran.find();
+      const pel = pelanggaranD.map((p) => ({
+        ids: p._id,
+        siswa: p.siswa,
+        jenis: p.jenis,
+        guru: p.guru,
+        tgl: p.created_at,
+      }));
+      successCb({ status: 200, success: true, data: pel }, cb);
+    } catch (err) {
+      errorCb({ status: 500, success: false, msg: 'Internal server error' }, cb);
+    }
   },
   readKategoriOne: async (id, cb) => {
-    const kategoriD = await Kategori.findById(id);
-    !kategoriD && errorCb({ status: 404, success: false, msg: 'Kategori tidak ditemukan' }, cb);
-    successCb(
-      {
-        status: 200,
-        success: true,
-        data: {
-          ids: kategoriD._id,
-          namaKategori: kategoriD.namaKategori,
+    try {
+      const kategoriD = await Kategori.findById(id);
+      successCb(
+        {
+          status: 200,
+          success: true,
+          data: {
+            ids: kategoriD._id,
+            namaKategori: kategoriD.namaKategori,
+          },
         },
-      },
-      cb
-    );
+        cb
+      );
+    } catch (err) {
+      errorCb({ status: 404, success: false, msg: 'Kategori tidak ditemukan' }, cb);
+    }
   },
   readJenisPelanggaranOne: async (id, cb) => {
     const jenisD = await JenisPelanggaran.findById(id);
-    !jenisD &&
+    jenisD === null &&
       errorCb({ status: 404, success: true, msg: 'Jenis Pelanggaran tidak ditemukan' }, cb);
     successCb(
       {
@@ -168,7 +185,7 @@ module.exports = pelanggaranInstance = {
   },
   readPelanggaranOne: async (id, cb) => {
     const pelanggaranD = await Pelanggaran.findById(id);
-    !pelanggaranD &&
+    pelanggaranD === null &&
       errorCb({ status: 404, success: false, msg: 'Pelanggaran tidak ditemukan' }, cb);
     successCb(
       {
@@ -187,7 +204,7 @@ module.exports = pelanggaranInstance = {
   },
   readPelanggaranSiswa: async (id, cb) => {
     const siswa = await Siswa.findById(id);
-    !siswa && errorCb({ status: 404, success: false, msg: 'Siswa tidak ditemukan' }, cb);
+    siswa === null && errorCb({ status: 404, success: false, msg: 'Siswa tidak ditemukan' }, cb);
     const pelanggaranSiswa = await Pelanggaran.find({ siswa: siswa.name });
     let poin = 0;
     let pel = [];
@@ -274,9 +291,10 @@ module.exports = pelanggaranInstance = {
   },
   editPelanggaran: async (id, data, cb) => {
     const jenisP = await JenisPelanggaran.findById(data.idJenisP);
-    !jenisP && errorCb({ status: 404, success: false, msg: 'Pelanggaran tidak ditemukan' }, cb);
+    jenisP === null &&
+      errorCb({ status: 404, success: false, msg: 'Pelanggaran tidak ditemukan' }, cb);
     const guruD = await Guru.findById(data.idGuru);
-    !guruD && errorCb({ status: 404, success: false, msg: 'Guru tidak ditemukan' }, cb);
+    guruD === null && errorCb({ status: 404, success: false, msg: 'Guru tidak ditemukan' }, cb);
 
     const jenis = {
       _id: jenisP._id,
@@ -302,7 +320,7 @@ module.exports = pelanggaranInstance = {
   },
   deleteKategori: async (id, cb) => {
     const kat = await Kategori.findById(id);
-    !kat && errorCb({ status: 404, success: false, msg: 'Kategori tidak ditemukan' }, cb);
+    kat === null && errorCb({ status: 404, success: false, msg: 'Kategori tidak ditemukan' }, cb);
     await Kategori.findByIdAndRemove(kat._id)
       .then(async (del) => {
         await JenisPelanggaran.find({ kategori: kat.namaKategori })
@@ -328,7 +346,7 @@ module.exports = pelanggaranInstance = {
   },
   deleteJenisPelanggaran: async (id, cb) => {
     const jenis = await JenisPelanggaran.findById(id);
-    !jenisD &&
+    jenis === null &&
       errorCb({ status: 404, success: true, msg: 'Jenis Pelanggaran tidak ditemukan' }, cb);
     await JenisPelanggaran.findByIdAndRemove(id)
       .then(async (del) => {

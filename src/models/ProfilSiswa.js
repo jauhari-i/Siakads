@@ -10,15 +10,12 @@ const profilSiswaSchema = new mongoose.Schema({
   },
   nik: {
     type: String,
-    unique: true,
   },
   nis: {
     type: String,
-    unique: true,
   },
   nisn: {
     type: String,
-    unique: true,
   },
   tempatLahir: {
     type: String,
@@ -32,7 +29,6 @@ const profilSiswaSchema = new mongoose.Schema({
   },
   noUn: {
     type: String,
-    unique: true,
   },
   agama: {
     type: String,

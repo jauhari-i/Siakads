@@ -24,6 +24,14 @@ module.exports = registerKelas = async (data, cb) => {
           status: 500,
           msg: 'Akun belum terverifikasi',
         });
+      const kelasd = await Kelas.findOne({ waliKelas: data.waliKelas });
+      if (kelasd) {
+        errorCb({
+          success: false,
+          status: 500,
+          msg: 'Guru telah terdaftar sebagai wali kelas lain',
+        });
+      }
       await Kelas.create({
         namaKelas: data.namaKelas,
         jurusan: data.jurusan,
@@ -41,11 +49,10 @@ module.exports = registerKelas = async (data, cb) => {
           });
         })
         .catch((err) => {
-          console.log(err);
           errorCb({
             success: false,
             status: 500,
-            msg: 'Guru telah terdaftar sebagai wali kelas lain',
+            msg: 'internal server error',
           });
         });
     })
