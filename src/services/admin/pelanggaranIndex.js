@@ -76,17 +76,11 @@ module.exports = pelanggaranInstance = {
   },
   addPelanggaran: async (data, cb) => {
     const siswaD = await Siswa.findById(data.idSiswa);
-    if (!siswaD) {
-      errorCb({ status: 404, success: false, msg: 'Siswa tidak ditemukan' }, cb);
-    }
+    !siswaD && errorCb({ status: 404, success: false, msg: 'Siswa tidak ditemukan' }, cb);
     const jenisP = await JenisPelanggaran.findById(data.idJenisP);
-    if (!jenisP) {
-      errorCb({ status: 404, success: false, msg: 'Pelanggaran tidak ditemukan' }, cb);
-    }
+    !jenisP && errorCb({ status: 404, success: false, msg: 'Pelanggaran tidak ditemukan' }, cb);
     const guruD = await Guru.findById(data.idGuru);
-    if (!guruD) {
-      errorCb({ status: 404, success: false, msg: 'Guru tidak ditemukan' }, cb);
-    }
+    !guruD && errorCb({ status: 404, success: false, msg: 'Guru tidak ditemukan' }, cb);
 
     const jenis = {
       _id: jenisP._id,
@@ -140,9 +134,7 @@ module.exports = pelanggaranInstance = {
   },
   readKategoriOne: async (id, cb) => {
     const kategoriD = await Kategori.findById(id);
-    if (!kategoriD) {
-      errorCb({ status: 404, success: false, msg: 'Kategori tidak ditemukan' }, cb);
-    }
+    !kategoriD && errorCb({ status: 404, success: false, msg: 'Kategori tidak ditemukan' }, cb);
     successCb(
       {
         status: 200,
@@ -157,9 +149,8 @@ module.exports = pelanggaranInstance = {
   },
   readJenisPelanggaranOne: async (id, cb) => {
     const jenisD = await JenisPelanggaran.findById(id);
-    if (!jenisD) {
+    !jenisD &&
       errorCb({ status: 404, success: true, msg: 'Jenis Pelanggaran tidak ditemukan' }, cb);
-    }
     successCb(
       {
         status: 200,
@@ -177,9 +168,8 @@ module.exports = pelanggaranInstance = {
   },
   readPelanggaranOne: async (id, cb) => {
     const pelanggaranD = await Pelanggaran.findById(id);
-    if (!pelanggaranD) {
+    !pelanggaranD &&
       errorCb({ status: 404, success: false, msg: 'Pelanggaran tidak ditemukan' }, cb);
-    }
     successCb(
       {
         status: 200,
@@ -197,9 +187,7 @@ module.exports = pelanggaranInstance = {
   },
   readPelanggaranSiswa: async (id, cb) => {
     const siswa = await Siswa.findById(id);
-    if (!siswa) {
-      errorCb({ status: 404, success: false, msg: 'Siswa tidak ditemukan' }, cb);
-    }
+    !siswa && errorCb({ status: 404, success: false, msg: 'Siswa tidak ditemukan' }, cb);
     const pelanggaranSiswa = await Pelanggaran.find({ siswa: siswa.name });
     let poin = 0;
     let pel = [];
@@ -286,13 +274,9 @@ module.exports = pelanggaranInstance = {
   },
   editPelanggaran: async (id, data, cb) => {
     const jenisP = await JenisPelanggaran.findById(data.idJenisP);
-    if (!jenisP) {
-      errorCb({ status: 404, success: false, msg: 'Pelanggaran tidak ditemukan' }, cb);
-    }
+    !jenisP && errorCb({ status: 404, success: false, msg: 'Pelanggaran tidak ditemukan' }, cb);
     const guruD = await Guru.findById(data.idGuru);
-    if (!guruD) {
-      errorCb({ status: 404, success: false, msg: 'Guru tidak ditemukan' }, cb);
-    }
+    !guruD && errorCb({ status: 404, success: false, msg: 'Guru tidak ditemukan' }, cb);
 
     const jenis = {
       _id: jenisP._id,
@@ -318,9 +302,7 @@ module.exports = pelanggaranInstance = {
   },
   deleteKategori: async (id, cb) => {
     const kat = await Kategori.findById(id);
-    if (!kat) {
-      errorCb({ status: 404, success: false, msg: 'Kategori tidak ditemukan' }, cb);
-    }
+    !kat && errorCb({ status: 404, success: false, msg: 'Kategori tidak ditemukan' }, cb);
     await Kategori.findByIdAndRemove(kat._id)
       .then(async (del) => {
         await JenisPelanggaran.find({ kategori: kat.namaKategori })
@@ -346,9 +328,8 @@ module.exports = pelanggaranInstance = {
   },
   deleteJenisPelanggaran: async (id, cb) => {
     const jenis = await JenisPelanggaran.findById(id);
-    if (!jenis) {
+    !jenisD &&
       errorCb({ status: 404, success: true, msg: 'Jenis Pelanggaran tidak ditemukan' }, cb);
-    }
     await JenisPelanggaran.findByIdAndRemove(id)
       .then(async (del) => {
         const jenisD = {
